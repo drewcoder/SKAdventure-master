@@ -470,7 +470,7 @@
 #pragma mark - Event Handling - OS X
 - (void)handleKeyEvent:(NSEvent *)event keyDown:(BOOL)downOrUp {
     // First check the arrow keys since they are on the numeric keypad.
-    if ([event modifierFlags] & NSNumericPadKeyMask) { // arrow keys have this mask
+    if ([event modifierFlags] & NSEventModifierFlagNumericPad) { // arrow keys have this mask
         NSString *theArrow = [event charactersIgnoringModifiers];
         unichar keyChar = 0;
         if ([theArrow length] == 1) {
@@ -646,14 +646,14 @@
 
     // Use either the dpad or the left thumbstick to move the character.
     controller.extendedGamepad.leftThumbstick.valueChangedHandler = dpadMoveHandler;
-    controller.gamepad.dpad.valueChangedHandler = dpadMoveHandler;
+    controller.extendedGamepad.dpad.valueChangedHandler = dpadMoveHandler;
     
     GCControllerButtonValueChangedHandler fireButtonHandler = ^(GCControllerButtonInput *button, float value, BOOL pressed) {
         player.fireAction = pressed;
     };
     
-    controller.gamepad.buttonA.valueChangedHandler = fireButtonHandler;
-    controller.gamepad.buttonB.valueChangedHandler = fireButtonHandler;
+    controller.extendedGamepad.buttonA.valueChangedHandler = fireButtonHandler;
+    controller.extendedGamepad.buttonB.valueChangedHandler = fireButtonHandler;
   
     if (player != self.defaultPlayer && !player.hero) {
         [self addHeroForPlayer:player];
